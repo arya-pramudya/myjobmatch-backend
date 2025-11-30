@@ -1053,9 +1053,9 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:8080",
+	Host:             "",
 	BasePath:         "/api",
-	Schemes:          []string{},
+	Schemes:          []string{"https", "http"},
 	Title:            "MyJobMatch API",
 	Description:      "AI-powered job matching backend with CV parsing, job search, and ranking capabilities.",
 	InfoInstanceName: "swagger",
