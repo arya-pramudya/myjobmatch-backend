@@ -1,0 +1,39 @@
+# Git
+.git
+.gitignore
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test
+*.test
+*.out
+coverage.txt
+coverage.html
+
+# Documentation
+*.md
+!README.md
+
+# Environment files (we set these in Cloud Run)
+.env
+.env.local
+.env.*.local
+
+# Temp files
+tmp/
+temp/

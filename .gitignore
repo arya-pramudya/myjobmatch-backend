@@ -1,0 +1,56 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool
+*.out
+coverage.txt
+coverage.html
+
+# Dependency directories
+vendor/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Build output
+bin/
+dist/
+build/
+
+# Temp files
+tmp/
+temp/
+*.tmp
+*.log
+
+# Local development
+*.local
+
+# Google Cloud credentials and secrets (NEVER commit these!)
+myjobagent-479707-*.json
+OAuthSecret.txt
+client_secret_*.json
+*-credentials.json
+*service-account*.json
+*.pem
+*.key
