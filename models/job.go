@@ -1,5 +1,34 @@
 package models
 
+import "encoding/json"
+
+// FlexibleStringSlice can unmarshal from either a string or []string
+type FlexibleStringSlice []string
+
+func (f *FlexibleStringSlice) UnmarshalJSON(data []byte) error {
+	// Try to unmarshal as []string first
+	var arr []string
+	if err := json.Unmarshal(data, &arr); err == nil {
+		*f = arr
+		return nil
+	}
+
+	// Try to unmarshal as string
+	var str string
+	if err := json.Unmarshal(data, &str); err == nil {
+		if str != "" {
+			*f = []string{str}
+		} else {
+			*f = []string{}
+		}
+		return nil
+	}
+
+	// If both fail, return empty slice
+	*f = []string{}
+	return nil
+}
+
 // JobPosting represents a job posting extracted from a webpage
 type JobPosting struct {
 	Title       string   `json:"title"`
@@ -13,12 +42,12 @@ type JobPosting struct {
 	Tags        []string `json:"tags,omitempty"`
 
 	// Optional fields
-	Salary          string   `json:"salary,omitempty"`
-	DatePosted      string   `json:"date_posted,omitempty"`
-	ApplicationURL  string   `json:"application_url,omitempty"`
-	Requirements    string   `json:"requirements,omitempty"`
-	Benefits        []string `json:"benefits,omitempty"`
-	ExperienceLevel string   `json:"experience_level,omitempty"` // entry, mid, senior, lead
+	Salary          string              `json:"salary,omitempty"`
+	DatePosted      string              `json:"date_posted,omitempty"`
+	ApplicationURL  string              `json:"application_url,omitempty"`
+	Requirements    string              `json:"requirements,omitempty"`
+	Benefits        FlexibleStringSlice `json:"benefits,omitempty"`
+	ExperienceLevel string              `json:"experience_level,omitempty"` // entry, mid, senior, lead
 }
 
 // RankedJob is a JobPosting with match scoring
