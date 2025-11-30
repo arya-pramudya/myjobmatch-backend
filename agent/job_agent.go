@@ -161,15 +161,21 @@ func (a *JobAgent) SearchJobs(ctx context.Context, input SearchJobsInput) (*Sear
 		}, nil
 	}
 
+	maxJobsToScore := 30
+	if len(jobs) > maxJobsToScore {
+		log.Printf("[Agent] Limiting jobs to score from %d to %d", len(jobs), maxJobsToScore)
+		jobs = jobs[:maxJobsToScore]
+	}
+
 	// Step 5: Score jobs against profile concurrently
 	rankedJobs := a.scoreJobsConcurrently(ctx, profile, jobs)
 	stats.JobsScored = len(rankedJobs)
 	log.Printf("[Agent] Scored %d jobs", len(rankedJobs))
 
-	// Step 6: Filter jobs with match score > 50
+	// Step 6: Filter jobs with match score >= 50
 	filteredJobs := make([]models.RankedJob, 0, len(rankedJobs))
 	for _, job := range rankedJobs {
-		if job.MatchScore > 50 {
+		if job.MatchScore >= 50 {
 			filteredJobs = append(filteredJobs, job)
 		}
 	}
