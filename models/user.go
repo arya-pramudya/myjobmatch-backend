@@ -8,9 +8,9 @@ type UserProfile struct {
 	Phone string `json:"phone,omitempty"`
 
 	// Professional Summary
-	Summary    string `json:"summary,omitempty"`
-	Title      string `json:"title,omitempty"`
-	Experience int    `json:"experience_years,omitempty"`
+	Summary    string  `json:"summary,omitempty"`
+	Title      string  `json:"title,omitempty"`
+	Experience float64 `json:"experience_years,omitempty"`
 
 	// Skills and Technologies
 	Skills         []string `json:"skills,omitempty"`

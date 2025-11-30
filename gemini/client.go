@@ -127,7 +127,7 @@ Return ONLY the JSON object, no markdown formatting, no explanation.`
 		return nil, fmt.Errorf("failed to parse profile JSON: %w", err)
 	}
 
-	log.Printf("[Gemini] Parsed CV PDF '%s': name=%s, skills=%d, experience=%d years",
+	log.Printf("[Gemini] Parsed CV PDF '%s': name=%s, skills=%d, experience=%.2f years",
 		filename, profile.Name, len(profile.Skills), profile.Experience)
 
 	return &profile, nil
