@@ -13,12 +13,12 @@ type JobPosting struct {
 	Tags        []string `json:"tags,omitempty"`
 
 	// Optional fields
-	Salary          string `json:"salary,omitempty"`
-	DatePosted      string `json:"date_posted,omitempty"`
-	ApplicationURL  string `json:"application_url,omitempty"`
-	Requirements    string `json:"requirements,omitempty"`
-	Benefits        string `json:"benefits,omitempty"`
-	ExperienceLevel string `json:"experience_level,omitempty"` // entry, mid, senior, lead
+	Salary          string   `json:"salary,omitempty"`
+	DatePosted      string   `json:"date_posted,omitempty"`
+	ApplicationURL  string   `json:"application_url,omitempty"`
+	Requirements    string   `json:"requirements,omitempty"`
+	Benefits        []string `json:"benefits,omitempty"`
+	ExperienceLevel string   `json:"experience_level,omitempty"` // entry, mid, senior, lead
 }
 
 // RankedJob is a JobPosting with match scoring

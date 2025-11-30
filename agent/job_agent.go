@@ -299,19 +299,31 @@ func (a *JobAgent) fetchPagesConcurrently(ctx context.Context, urls []string) []
 	return results
 }
 
-// extractJobsConcurrently extracts jobs from HTML pages in parallel
+// extractJobsConcurrently extracts jobs from HTML pages in parallel (max 10 jobs)
 func (a *JobAgent) extractJobsConcurrently(ctx context.Context, pages []models.FetchPageResponse) []models.JobPosting {
-	jobs := make([]models.JobPosting, 0)
+	const maxJobsToExtract = 10
+
+	jobs := make([]models.JobPosting, 0, maxJobsToExtract)
 	jobsChan := make(chan *models.JobPosting, len(pages))
+
+	// Filter valid pages first
+	validPages := make([]models.FetchPageResponse, 0)
+	for _, page := range pages {
+		if page.Error == "" && page.HTML != "" {
+			validPages = append(validPages, page)
+		}
+	}
+
+	// Limit pages to process for performance
+	if len(validPages) > maxJobsToExtract {
+		log.Printf("[Agent] Limiting pages to extract from %d to %d", len(validPages), maxJobsToExtract)
+		validPages = validPages[:maxJobsToExtract]
+	}
 
 	var wg sync.WaitGroup
 	sem := make(chan struct{}, a.maxConcurrent)
 
-	for _, page := range pages {
-		if page.Error != "" || page.HTML == "" {
-			continue
-		}
-
+	for _, page := range validPages {
 		wg.Add(1)
 		go func(p models.FetchPageResponse) {
 			defer wg.Done()
